@@ -1,7 +1,7 @@
 # cognito-workshops
 
 ```bash
-curl -H "Authorization: Bearer 123" http://localhost:5000/
+curl -H "Authorization: Bearer <access_token>" http://localhost:5000/
 ```
 
 https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-as-user-directory.html

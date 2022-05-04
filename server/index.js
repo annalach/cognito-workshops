@@ -1,6 +1,13 @@
 import Fastify from 'fastify';
+import { CognitoJwtVerifier } from "aws-jwt-verify";
 
 const fastify = Fastify({ logger: true })
+
+const verifier = CognitoJwtVerifier.create({
+    userPoolId: "<user_pool_id>",
+    tokenUse: "access",
+    clientId: "<client_id>",
+});
 
 fastify.route({
     method: 'GET',
@@ -26,7 +33,12 @@ fastify.route({
     preHandler: async (request, reply) => {
         const header = request.headers.authorization;
         const accessToken = header.split('Bearer ')[1]
-        // TODO: validate token
+        try {
+            const payload = await verifier.verify(accessToken);
+            fastify.log.info(`Token is valid. Payload: ${JSON.stringify(payload)}`);
+        } catch {
+            fastify.log.info("Token not valid!");
+        }
     },
     handler: async (request, reply) => {
         return { message: 'hello world' }

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-jwt-verify": "^3.0.0",
     "fastify": "^3.29.0"
   }
 }
