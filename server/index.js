@@ -25,7 +25,7 @@ fastify.route({
     },
     preHandler: async (request, reply) => {
         const header = request.headers.authorization;
-        const accessToken = header.split(' ')[1]
+        const accessToken = header.split('Bearer ')[1]
         // TODO: validate token
     },
     handler: async (request, reply) => {
@@ -35,7 +35,7 @@ fastify.route({
 
 const start = async () => {
     try {
-        await fastify.listen(3000)
+        await fastify.listen(5000)
     } catch (err) {
         fastify.log.error(err)
         process.exit(1)
