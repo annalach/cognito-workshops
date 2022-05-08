@@ -1,45 +1,34 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import { Amplify } from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+import { fetchData } from './api'; 
+import config from './config';
+
+Amplify.configure({
+  region: config.REGION,
+  userPoolId: config.USER_POOL_ID,
+  userPoolWebClientId: config.USER_POOL_WEB_CLIENT_ID,
+});
+
+function App({ signOut, user }) {
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetchData();
+      setData(data);
+    })();
+  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    <main>
+      <h1>Hello {user.username}</h1>
+      <div>{JSON.stringify(data)}</div>
+      <button onClick={signOut}>Sign out</button>
+    </main>
+  );
 }
 
-export default App
+export default withAuthenticator(App, { loginMechanisms: ['email'] })
