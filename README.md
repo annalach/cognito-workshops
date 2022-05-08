@@ -31,3 +31,5 @@ curl -H "Authorization: Bearer <access_token>" http://localhost:5000/
 - [Amplify UI docs](https://ui.docs.amplify.aws/components/authenticator?platform=react)
 
 - [An Illustrated Guide to OAuth and OpenID Connect](https://youtu.be/t18YB3xDfXI)
+
+- [MUI React Templates](https://mui.com/material-ui/getting-started/templates/)
