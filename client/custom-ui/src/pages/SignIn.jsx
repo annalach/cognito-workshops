@@ -12,6 +12,36 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { AuthenticationDetails, CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js';
+import * as AWS from 'aws-sdk/global';
+
+AWS.config.region = 'eu-central-1';
+
+import config from '../config';
+
+const signIn = ({ email, password }) => {
+  console.log('sign in', {email, password })
+  const authenticationDetails = new AuthenticationDetails({
+    Username: email,
+    Password: password,
+  });
+
+  const userPool = new CognitoUserPool({
+    UserPoolId: config.USER_POOL_ID,
+    ClientId: config.USER_POOL_WEB_CLIENT_ID,
+  });
+
+  const cognitoUser = new CognitoUser({ Username: email, Pool: userPool });
+
+  cognitoUser.authenticateUser(authenticationDetails, {
+    onSuccess: result => {
+      const accessToken = result.getAccessToken().getJwtToken();
+      console.log('accessToken', accessToken);
+    },
+    onFailure: () => {},
+  });
+}
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,6 +62,10 @@ function App() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+    signIn({
       email: data.get('email'),
       password: data.get('password'),
     });
