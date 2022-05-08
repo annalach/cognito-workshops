@@ -1,8 +1,19 @@
 import Fastify from 'fastify';
+import cors from '@fastify/cors';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 import config from './config.js';
 
 const fastify = Fastify({ logger: true });
+fastify.register(cors, {
+    origin: (origin, cb) => {
+        const hostname = new URL(origin).hostname
+        if (hostname === "localhost") {
+            cb(null, true)
+            return
+        }
+        cb(new Error("Not allowed"))
+    }
+})
 
 const verifier = CognitoJwtVerifier.create({
     userPoolId: config.userPoolId,
