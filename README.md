@@ -4,6 +4,14 @@
 
 ### 1. Create a user pool
 
+![Step 1](images/step-1.png)
+![Step 2](images/step-2.png)
+![Step 3](images/step-3.png)
+![Step 4](images/step-4.png)
+![Step 5 pt 1](images/step-5-pt-1.png)
+![Step 5 pt 2](images/step-5-pt-2.png)
+![Step 6](images/step-6.png)
+
 ### 2. Add token validation to an API
 
 ```bash
@@ -12,9 +20,15 @@ curl -H "Authorization: Bearer <access_token>" http://localhost:5000/
 
 ### 3. Use Hosted UI to authenticate your users
 
+![hosted-ui](images/hosted-ui.png)
+
 ### 4. Use Amplify UI React components in your app
 
+![amplify-ui](images/amplify-ui.png)
+
 ### 5. Use custom UI (MUI template) for sign in
+
+![custom-ui](images/custom-ui.png)
 
 ## Pros and cons
 
