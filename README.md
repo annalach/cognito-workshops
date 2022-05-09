@@ -1,9 +1,5 @@
 # Amazon Cognito Workshops
 
-## Table of Content
-
-[[_TOC_]]
-
 ## Tasks
 
 ### 1. Create a user pool
@@ -17,6 +13,38 @@
 ![Step 6](images/step-6.png)
 
 ### 2. Add token validation to an API
+
+Update `server/config.js`
+
+```js
+export default {
+  userPoolId: "<user_pool_id>",
+  clientId: "<client_id>",
+};
+```
+
+Add `preHandler` that will validate received token
+
+```js
+import { CognitoJwtVerifier } from 'aws-jwt-verify';
+
+const verifier = CognitoJwtVerifier.create({
+    userPoolId: config.userPoolId,
+    clientId: config.clientId,
+    tokenUse: 'access',
+});
+
+// in fastify.route
+preHandler: async (request, reply) => {
+    const header = request.headers.authorization;
+    const accessToken = header.split('Bearer ')[1];
+    try {
+        const payload = await verifier.verify(accessToken);
+    } catch {
+        reply.status(401).send('Unauthorized')
+    }
+},
+```
 
 ```bash
 curl -H "Authorization: Bearer <access_token>" http://localhost:5000/
