@@ -1,7 +1,7 @@
 export default {
-    REGION: 'eu-central-1',
-    USER_POOL_ID: 'eu-central-1_q9PSHwj0m',
-    USER_POOL_WEB_CLIENT_ID: '1vecuiob92936ankeoq8s2urjk',
+    REGION: 'XX-XXXX-X',
+    USER_POOL_ID: 'XX-XXXX-X_abcd1234',
+    USER_POOL_WEB_CLIENT_ID: 'a1b2c3d4e5f6g7h8i9j0k1l2m3',
     API_URL: "http://localhost:5000",
     ACCESS_TOKEN_STORAGE_KEY: 'accessToken',
 };

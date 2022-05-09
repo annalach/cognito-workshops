@@ -117,6 +117,25 @@ export default {
 };
 ```
 
+Update `client/amplify-ui/src/api.js`
+
+```js
+export const fetchData = async () => {
+  const cognitoLastAuthUser = localStorage.getItem(
+    `CognitoIdentityServiceProvider.${config.USER_POOL_WEB_CLIENT_ID}.LastAuthUser`
+  );
+  const accessTokenStorageKey = `CognitoIdentityServiceProvider.${config.USER_POOL_WEB_CLIENT_ID}.${cognitoLastAuthUser}.accessToken`;
+  const accessToken = localStorage.getItem(accessTokenStorageKey) || "";
+  const response = await fetch(config.API_URL, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  return response.json();
+};
+```
+
 Update `client/amplify-ui/src/App.jsx`
 
 ```js
@@ -138,6 +157,75 @@ export default withAuthenticator(App, { loginMechanisms: ["email"] });
 ### 5. Use custom UI (MUI template) for sign in
 
 ![custom-ui](images/custom-ui.png)
+
+Update `client/custom-ui/src/config.js`
+
+```js
+export default {
+  REGION: "XX-XXXX-X",
+  USER_POOL_ID: "XX-XXXX-X_abcd1234",
+  USER_POOL_WEB_CLIENT_ID: "a1b2c3d4e5f6g7h8i9j0k1l2m3",
+  API_URL: "http://localhost:5000",
+  ACCESS_TOKEN_STORAGE_KEY: "accessToken",
+};
+```
+
+Update `client/custom-ui/src/api.js`
+
+```js
+export const fetchData = async () => {
+  const cognitoLastAuthUser = localStorage.getItem(
+    `CognitoIdentityServiceProvider.${config.USER_POOL_WEB_CLIENT_ID}.LastAuthUser`
+  );
+  const accessTokenStorageKey = `CognitoIdentityServiceProvider.${config.USER_POOL_WEB_CLIENT_ID}.${cognitoLastAuthUser}.accessToken`;
+  const accessToken = localStorage.getItem(accessTokenStorageKey) || "";
+  const response = await fetch(config.API_URL, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  return response.json();
+};
+```
+
+Update `client/custom-ui/src/context/auth-context.jsx`
+
+```js
+import {
+  AuthenticationDetails,
+  CognitoUserPool,
+  CognitoUser,
+} from "amazon-cognito-identity-js";
+import * as AWS from "aws-sdk/global";
+
+import config from "../config";
+
+AWS.config.region = "eu-central-1";
+
+const signIn = ({ email, password }) => {
+  const authenticationDetails = new AuthenticationDetails({
+    Username: email,
+    Password: password,
+  });
+
+  const userPool = new CognitoUserPool({
+    UserPoolId: config.USER_POOL_ID,
+    ClientId: config.USER_POOL_WEB_CLIENT_ID,
+  });
+
+  const cognitoUser = new CognitoUser({ Username: email, Pool: userPool });
+
+  cognitoUser.authenticateUser(authenticationDetails, {
+    onSuccess: (result) => {
+      setUser(result);
+    },
+    onFailure: (err) => {
+      console.error(err);
+    },
+  });
+};
+```
 
 ## Pros and cons
 
