@@ -1,5 +1,9 @@
 # Amazon Cognito Workshops
 
+## Table of Content
+
+[[_TOC_]]
+
 ## Tasks
 
 ### 1. Create a user pool
