@@ -106,6 +106,35 @@ function OAuthRedirect() {
 
 ![amplify-ui](images/amplify-ui.png)
 
+Update `client/amplify-ui/src/config.js`;
+
+```js
+export default {
+  REGION: "XX-XXXX-X",
+  USER_POOL_ID: "XX-XXXX-X_abcd1234",
+  USER_POOL_WEB_CLIENT_ID: "a1b2c3d4e5f6g7h8i9j0k1l2m3",
+  API_URL: "http://localhost:5000",
+};
+```
+
+Update `client/amplify-ui/src/App.jsx`
+
+```js
+import { Amplify } from "aws-amplify";
+import { withAuthenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+
+import config from "./config";
+
+Amplify.configure({
+  region: config.REGION,
+  userPoolId: config.USER_POOL_ID,
+  userPoolWebClientId: config.USER_POOL_WEB_CLIENT_ID,
+});
+
+export default withAuthenticator(App, { loginMechanisms: ["email"] });
+```
+
 ### 5. Use custom UI (MUI template) for sign in
 
 ![custom-ui](images/custom-ui.png)
