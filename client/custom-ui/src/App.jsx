@@ -1,7 +1,10 @@
-import SignIn from './pages/SignIn';
+import { useUser } from './context/user-context';
+import AuthenticatedApp from './authenticated-app'
+import UnauthenticatedApp from './unauthenticated-app'
 
 function App() {
-  return <SignIn />
+  const user = useUser();
+  return user ? <AuthenticatedApp /> : <UnauthenticatedApp />
 }
 
 export default App

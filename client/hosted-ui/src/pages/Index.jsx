@@ -10,7 +10,7 @@ function Index() {
       const data = await fetchData();
       setData(data);
     })();
-  });
+  }, []);
 
   return <div>{JSON.stringify(data)}</div>;
 };

@@ -1,8 +1,20 @@
 # Amazon Cognito Workshops
 
+## Tasks
+
+### 1. Create a user pool
+
+### 2. Add token validation to an API
+
 ```bash
 curl -H "Authorization: Bearer <access_token>" http://localhost:5000/
 ```
+
+### 3. Use Hosted UI to authenticate your users
+
+### 4. Use Amplify UI React components in your app
+
+### 5. Use custom UI (MUI template) for sign in
 
 ## Pros and cons
 
@@ -10,11 +22,17 @@ curl -H "Authorization: Bearer <access_token>" http://localhost:5000/
 
 - [pricing](https://aws.amazon.com/cognito/pricing/)
 - customizable auth flow (with AWS Lambda) e.g. [passwordless email authentication](https://aws.amazon.com/blogs/mobile/implementing-passwordless-email-authentication-with-amazon-cognito/)
+- integrations with other AWS Services e.g.:
+  - temporary AWS credentials to use with SDK ([Identity Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/getting-started-with-identity-pools.html))
+  - access control for your API in [Amazon API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html).
 
 ### Cons
 
 - can't change some settings once a user pool is created
 - very limited ability to customize hosted UI ([docs](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-ui-customization.html)) e.g can't set an image as a background for the page
+- social sign-on goes through a user pool's hosted UI [docs](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-social-idp.html)
+- available packages' API
+- a known issue with accounts linking, described [here](https://bobbyhadz.com/blog/aws-cognito-amplify-bad-bugged#oauth-registration-with-amplify)
 
 ## Resources
 
