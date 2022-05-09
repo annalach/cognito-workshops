@@ -54,6 +54,54 @@ curl -H "Authorization: Bearer <access_token>" http://localhost:5000/
 
 ![hosted-ui](images/hosted-ui.png)
 
+Update `client/hosted-ui/config.js`
+
+```js
+export default {
+  SIGN_IN_SCREEN_URL: "<your_hosted_ui_url_for_the_app>",
+  API_URL: "http://localhost:5000",
+  ACCESS_TOKEN_STORAGE_KEY: "accessToken",
+};
+```
+
+Update `client/hosted-ui/api.js`
+
+```js
+export const fetchData = async () => {
+  const accessToken =
+    localStorage.getItem(config.ACCESS_TOKEN_STORAGE_KEY) || "";
+  const response = await fetch(config.API_URL, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (response.status === 401) {
+    window.location.href = config.SIGN_IN_SCREEN_URL;
+  }
+
+  return response.json();
+};
+```
+
+Update `client/hosted-ui/src/pages/OAuthRedirect.jsx`
+
+```js
+function OAuthRedirect() {
+  useEffect(() => {
+    if (window.location.hash === "") {
+      window.location.href = "/";
+    }
+    const accessToken = window.location.href
+      .split("access_token=")[1]
+      .split("&")[0];
+    localStorage.setItem(config.ACCESS_TOKEN_STORAGE_KEY, accessToken);
+    window.location.href = "/";
+  }, []);
+
+  return null;
+}
+```
+
 ### 4. Use Amplify UI React components in your app
 
 ![amplify-ui](images/amplify-ui.png)
