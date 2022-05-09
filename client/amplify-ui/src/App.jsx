@@ -1,16 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Amplify } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
 
 import { fetchData } from './api'; 
-import config from './config';
-
-Amplify.configure({
-  region: config.REGION,
-  userPoolId: config.USER_POOL_ID,
-  userPoolWebClientId: config.USER_POOL_WEB_CLIENT_ID,
-});
 
 function App({ signOut, user }) {
   const [data, setData] = useState('');
@@ -31,4 +21,4 @@ function App({ signOut, user }) {
   );
 }
 
-export default withAuthenticator(App, { loginMechanisms: ['email'] })
+export default App;

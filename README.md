@@ -27,6 +27,7 @@ Add `preHandler` that will validate received token
 
 ```js
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
+import config from './config.js';
 
 const verifier = CognitoJwtVerifier.create({
     userPoolId: config.userPoolId,
